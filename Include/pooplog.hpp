@@ -52,15 +52,15 @@ namespace poop
 		switch(LogLevel)
 		{
 			case 0:
-				color = "\033[32m" , ts = "[INFO]";break;
+				color = "\033[32m" , ts = "[INFO] ";break;
 			case 1:
-				color = "\033[36m" , ts = "[DEBUG]";break;
+				color = "\033[36m" , ts = "[DEBUG] ";break;
 			case 2:
-				color = "\033[33m" , ts = "[WARN]";break;
+				color = "\033[33m" , ts = "[WARN] ";break;
 			case 3:
-				color = "\033[31m" , ts = "[ERROR]";break;
+				color = "\033[31m" , ts = "[ERROR] ";break;
 			case 4:
-				color = "\033[90m" , ts = "[OTHER]";break;
+				color = "\033[90m" , ts = "[OTHER] ";break;
 		}
 		if(coloroutput)
 		{
@@ -68,7 +68,7 @@ namespace poop
 		}
 		else
 		{
-			std::cout << ts << msg << "\033[0m\n";
+			std::cout << ts << msg << "\n";
 		}
 	}
 }
