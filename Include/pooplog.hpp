@@ -1,0 +1,82 @@
+// Second Warning! The content here is extremely similar to poop.
+#ifndef POOPLOG_HPP
+#define POOPLOG_HPP
+
+#include <iostream>
+#include <cstring>
+#ifdef _WIN32
+	#include <windows.h>
+#endif
+
+namespace poop
+{
+	namespace level
+	{
+		const int lv_INFO = 0;
+		const int lv_DEBUG = 1;
+		const int lv_ERROR = 3;
+		const int lv_WARN = 2;
+		const int lv_OTHER = 4;
+	}
+	inline bool coloroutput = false;
+	inline int usingColorOutput(bool ok)
+	{
+		if(ok)
+		{
+			#ifdef _WIN32
+				HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+				if (hOut == INVALID_HANDLE_VALUE) return false;
+		        DWORD dwMode = 0;
+		        if (!GetConsoleMode(hOut, &dwMode)) return false;
+		        dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+		        if(SetConsoleMode(hOut, dwMode) != 0) 
+		        {
+					coloroutput = 1;
+		        	return true;
+		        }
+		        else return false;
+			#else
+				coloroutput = 1;
+				return true;
+			#endif
+		}
+		else 
+		{
+			coloroutput = 0;
+			return false;
+		}
+	}
+	inline void log(int LogLevel , const std::string &msg)
+	{
+		std::string color , ts;
+		switch(LogLevel)
+		{
+			case 0:
+				color = "\033[32m" , ts = "[INFO]";break;
+			case 1:
+				color = "\033[36m" , ts = "[DEBUG]";break;
+			case 2:
+				color = "\033[33m" , ts = "[WARN]";break;
+			case 3:
+				color = "\033[31m" , ts = "[ERROR]";break;
+			case 4:
+				color = "\033[90m" , ts = "[OTHER]";break;
+		}
+		if(coloroutput)
+		{
+			std::cout << color << ts << msg << "\033[0m\n";
+		}
+		else
+		{
+			std::cout << ts << msg << "\033[0m\n";
+		}
+	}
+}
+
+#define INFO_LOG(msg) ::poop::log(::poop::level::lv_INFO , msg)
+#define DEBUG_LOG(msg) ::poop::log(::poop::level::lv_DEBUG , msg)
+#define WARN_LOG(msg) ::poop::log(::poop::level::lv_WARN , msg)
+#define ERROR_LOG(msg) ::poop::log(::poop::level::lv_ERROR , msg)
+#define OTHER_LOG(msg) ::poop::log(::poop::level::lv_OTHER , msg)
+
+#endif
