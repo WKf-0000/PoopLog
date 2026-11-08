@@ -1,6 +1,6 @@
 # PoopLog
 
-A header-only C++ logging library made with poop.
+A header-only C++ logging library made with poop.💩
 
 ## Usage
 ```cpp
